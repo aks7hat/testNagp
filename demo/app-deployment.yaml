@@ -1,7 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-service
+  name: my-svc
+  labels:
+    app: my-app
 spec:
   selector:
     app: my-app
@@ -11,7 +13,6 @@ spec:
     targetPort: 8080
   type: LoadBalancer
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,27 +31,27 @@ spec:
     spec:
       containers:
       - name: my-app
-        image: aks07hat/dummy
+        image: aks07hat/test01
         ports:
         - containerPort: 8080
         env:
         - name: DB_HOST
-          valueFrom: 
-            ConfigMapKeyRef:
+          valueFrom:
+            configMapKeyRef:
               name: my-config
               key: host
         - name: DB_NAME
-          valueFrom: 
-            ConfigMapKeyRef:
+          valueFrom:
+            configMapKeyRef:
               name: my-config
               key: name
         - name: DB_USER
-          valueFrom: 
-            ConfigMapKeyRef:
+          valueFrom:
+            secretKeyRef:
               name: my-secret
               key: username
         - name: DB_PASSWORD
-          valueFrom: 
-            ConfigMapKeyRef:
+          valueFrom:
+            secretKeyRef:
               name: my-secret
-              key: password                                         
+              key: password

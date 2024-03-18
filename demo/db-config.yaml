@@ -4,4 +4,4 @@ metadata:
   name: my-config
 data:
   host: mysql
-  name: nagp_user
+  name: nagp  
